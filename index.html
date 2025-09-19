@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras | Sicredi Soma</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="titulo-area">
+            <div class="titulo-linha-row">
+                <h1>
+                    Carrinho de Compras
+                    <span class="cart-icon" aria-hidden="true" title="Carrinho">
+                        <svg viewBox="0 0 24 24" width="0" height="0" style="position:absolute;opacity:0;"></svg>
+                    </span>
+                </h1>
+            </div>
+            <div class="heading-line"></div>
+        </div>
+
+        {% if carrinho %}
+            {% for produto, info in carrinho.items() %}
+                {% set subtotal = info.preco * info.qtd %}
+                <div class="item-grid">
+                    <div class="col-nome">{{ produto }} × {{ info.qtd }}</div>
+                    <div class="col-preco">R$ {{ "%.2f"|format(subtotal) }}</div>
+                    <div class="col-acoes">
+                        <a class="btn-x" href="?cid={{ cid }}&rm={{ quote(produto) }}" title="Remover {{ produto }}">✕</a>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="totais">
+                <div class="total-row">
+                    <span>Total Geral:</span>
+                    <span>R$ {{ "%.2f"|format(total) }}</span>
+                </div>
+                <div class="total-row">
+                    <span>Total Capital:</span>
+                    <span>R$ {{ "%.2f"|format(capital) }}</span>
+                </div>
+            </div>
+        {% else %}
+            <div class="empty-cart">
+                <p>🛒 Carrinho vazio</p>
+            </div>
+        {% endif %}
+
+        <div class="url-tip">
+            <b>Adicionar por CÓDIGO via URL</b><br>
+            • Um item (mantendo o mesmo carrinho): <code>?cid={{ cid }}&Codigo=89&quantidade=1</code><br>
+            • Também funciona: <code>?cid={{ cid }}&codigo=50&q=3</code> ou <code>?cid={{ cid }}&code=50&qty=3</code><br>
+            • Vários itens: <code>?cid={{ cid }}&codes=89|2;50|1</code><br>
+            • Remover item: <code>?cid={{ cid }}&rm=Camiseta</code> ou <code>?cid={{ cid }}&rm=50</code><br>
+            • Limpar carrinho: <code>?cid={{ cid }}&clear=1</code><br><br>
+            Todos os direitos reservados Sicredi Soma
+        </div>
+    </div>
+</body>
+</html>
