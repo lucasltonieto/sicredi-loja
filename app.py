@@ -7,13 +7,79 @@ import os
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here')
 
-# ---------------------- CATÁLOGO (exemplo) --------------------------- #
+# ---------------------- CATÁLOGO --------------------------- #
 CATALOGO = {
-    # "codigo": {"nome": "Nome do produto", "preco": 0.00}
-    "89": {"nome": "Prato", "preco": 95.90},
-    "50": {"nome": "Camiseta", "preco": 20.55},
-    # adicione aqui: "COD": {"nome": "Produto", "preco": 12.34}
+    "JM001": {"nome": "JM001 - Jaqueta Puffer - P", "tamanho": "P", "produto": "Jaqueta Puffer", "preco": 180.00},
+    "JM002": {"nome": "JM002 - Jaqueta Puffer - M", "tamanho": "M", "produto": "Jaqueta Puffer", "preco": 180.00},
+    "JM003": {"nome": "JM003 - Jaqueta Puffer - G", "tamanho": "G", "produto": "Jaqueta Puffer", "preco": 180.00},
+    "JM004": {"nome": "JM004 - Jaqueta Puffer - GG", "tamanho": "GG", "produto": "Jaqueta Puffer", "preco": 180.00},
+    "JF001": {"nome": "JF001 - Jaqueta Puffer Feminino - P", "tamanho": "P", "produto": "Jaqueta Puffer Feminino", "preco": 180.00},
+    "JF002": {"nome": "JF002 - Jaqueta Puffer Feminino - M", "tamanho": "M", "produto": "Jaqueta Puffer Feminino", "preco": 180.00},
+    "JF003": {"nome": "JF003 - Jaqueta Puffer Feminino - G", "tamanho": "G", "produto": "Jaqueta Puffer Feminino", "preco": 180.00},
+    "JF004": {"nome": "JF004 - Jaqueta Puffer Feminino - GG", "tamanho": "GG", "produto": "Jaqueta Puffer Feminino", "preco": 180.00},
+    "CO001": {"nome": "CO001 - Colete Puffer - P", "tamanho": "P", "produto": "Colete Puffer", "preco": 160.00},
+    "CO002": {"nome": "CO002 - Colete Puffer - M", "tamanho": "M", "produto": "Colete Puffer", "preco": 160.00},
+    "CO003": {"nome": "CO003 - Colete Puffer - G", "tamanho": "G", "produto": "Colete Puffer", "preco": 160.00},
+    "CO004": {"nome": "CO004 - Colete Puffer - GG", "tamanho": "GG", "produto": "Colete Puffer", "preco": 160.00},
+    "CV001": {"nome": "CV001 - Corta Vento - P", "tamanho": "P", "produto": "Corta Vento", "preco": 170.00},
+    "CV002": {"nome": "CV002 - Corta Vento - M", "tamanho": "M", "produto": "Corta Vento", "preco": 170.00},
+    "CV003": {"nome": "CV003 - Corta Vento - G", "tamanho": "G", "produto": "Corta Vento", "preco": 170.00},
+    "CV004": {"nome": "CV004 - Corta Vento - GG", "tamanho": "GG", "produto": "Corta Vento", "preco": 170.00},
+    "MC001": {"nome": "MC001 - Moletom preto com capuz e bolso na frente e logo no peito - P", "tamanho": "P", "produto": "Moletom preto com capuz e bolso na frente e logo no peito", "preco": 87.00},
+    "MC002": {"nome": "MC002 - Moletom preto com capuz e bolso na frente e logo no peito - M", "tamanho": "M", "produto": "Moletom preto com capuz e bolso na frente e logo no peito", "preco": 87.00},
+    "MC003": {"nome": "MC003 - Moletom preto com capuz e bolso na frente e logo no peito - G", "tamanho": "G", "produto": "Moletom preto com capuz e bolso na frente e logo no peito", "preco": 87.00},
+    "MC004": {"nome": "MC004 - Moletom preto com capuz e bolso na frente e logo no peito - GG", "tamanho": "GG", "produto": "Moletom preto com capuz e bolso na frente e logo no peito", "preco": 87.00},
+    "MS001": {"nome": "MS001 - Moletom preto sem capuz e bolso na frente e logo no peito - P", "tamanho": "P", "produto": "Moletom preto sem capuz e bolso na frente e logo no peito", "preco": 77.00},
+    "MS002": {"nome": "MS002 - Moletom preto sem capuz e bolso na frente e logo no peito - M", "tamanho": "M", "produto": "Moletom preto sem capuz e bolso na frente e logo no peito", "preco": 77.00},
+    "MS003": {"nome": "MS003 - Moletom preto sem capuz e bolso na frente e logo no peito - G", "tamanho": "G", "produto": "Moletom preto sem capuz e bolso na frente e logo no peito", "preco": 77.00},
+    "MS004": {"nome": "MS004 - Moletom preto sem capuz e bolso na frente e logo no peito - GG", "tamanho": "GG", "produto": "Moletom preto sem capuz e bolso na frente e logo no peito", "preco": 77.00},
+    "MJ001": {"nome": "MJ001 - Moletom tipo jaqueta e capuz azul marinho com logo no peito - P", "tamanho": "P", "produto": "Moletom tipo jaqueta e capuz azul marinho com logo no peito", "preco": 112.00},
+    "MJ002": {"nome": "MJ002 - Moletom tipo jaqueta e capuz azul marinho com logo no peito - M", "tamanho": "M", "produto": "Moletom tipo jaqueta e capuz azul marinho com logo no peito", "preco": 112.00},
+    "MJ003": {"nome": "MJ003 - Moletom tipo jaqueta e capuz azul marinho com logo no peito - G", "tamanho": "G", "produto": "Moletom tipo jaqueta e capuz azul marinho com logo no peito", "preco": 112.00},
+    "MJ004": {"nome": "MJ004 - Moletom tipo jaqueta e capuz azul marinho com logo no peito - GG", "tamanho": "GG", "produto": "Moletom tipo jaqueta e capuz azul marinho com logo no peito", "preco": 112.00},
+    "CS001": {"nome": "CS001 - Camiseta Sicredi Soma - P", "tamanho": "P", "produto": "Camiseta Sicredi Soma", "preco": 28.50},
+    "CS002": {"nome": "CS002 - Camiseta Sicredi Soma - M", "tamanho": "M", "produto": "Camiseta Sicredi Soma", "preco": 28.50},
+    "CS003": {"nome": "CS003 - Camiseta Sicredi Soma - G", "tamanho": "G", "produto": "Camiseta Sicredi Soma", "preco": 28.50},
+    "CS004": {"nome": "CS004 - Camiseta Sicredi Soma - GG", "tamanho": "GG", "produto": "Camiseta Sicredi Soma", "preco": 28.50},
+    "CP001": {"nome": "CP001 - Camiseta Preta Só logo Sicredi Branca - P", "tamanho": "P", "produto": "Camiseta Preta Só logo Sicredi Branca", "preco": 28.50},
+    "CP002": {"nome": "CP002 - Camiseta Preta Só logo Sicredi Branca - M", "tamanho": "M", "produto": "Camiseta Preta Só logo Sicredi Branca", "preco": 28.50},
+    "CP003": {"nome": "CP003 - Camiseta Preta Só logo Sicredi Branca - G", "tamanho": "G", "produto": "Camiseta Preta Só logo Sicredi Branca", "preco": 28.50},
+    "CP004": {"nome": "CP004 - Camiseta Preta Só logo Sicredi Branca - GG", "tamanho": "GG", "produto": "Camiseta Preta Só logo Sicredi Branca", "preco": 28.50},
+    "CB001": {"nome": "CB001 - Camiseta Branca Só logo Sicredi Preta - P", "tamanho": "P", "produto": "Camiseta Branca Só logo Sicredi Preta", "preco": 28.50},
+    "CB002": {"nome": "CB002 - Camiseta Branca Só logo Sicredi Preta - M", "tamanho": "M", "produto": "Camiseta Branca Só logo Sicredi Preta", "preco": 28.50},
+    "CB003": {"nome": "CB003 - Camiseta Branca Só logo Sicredi Preta - G", "tamanho": "G", "produto": "Camiseta Branca Só logo Sicredi Preta", "preco": 28.50},
+    "CB004": {"nome": "CB004 - Camiseta Branca Só logo Sicredi Preta - GG", "tamanho": "GG", "produto": "Camiseta Branca Só logo Sicredi Preta", "preco": 28.50},
+    "PO001": {"nome": "PO001 - Camiseta Polo preta com logo branca - P", "tamanho": "P", "produto": "Camiseta Polo preta com logo branca", "preco": 59.50},
+    "PO002": {"nome": "PO002 - Camiseta Polo preta com logo branca - M", "tamanho": "M", "produto": "Camiseta Polo preta com logo branca", "preco": 59.50},
+    "PO003": {"nome": "PO003 - Camiseta Polo preta com logo branca - G", "tamanho": "G", "produto": "Camiseta Polo preta com logo branca", "preco": 59.50},
+    "PO004": {"nome": "PO004 - Camiseta Polo preta com logo branca - GG", "tamanho": "GG", "produto": "Camiseta Polo preta com logo branca", "preco": 59.50},
+    "CP001A": {"nome": "CP001 - Camiseta Padre Amistad - P", "tamanho": "P", "produto": "Camiseta Padre Amistad", "preco": 39.90},
+    "CP002A": {"nome": "CP002 - Camiseta Padre Amistad - M", "tamanho": "M", "produto": "Camiseta Padre Amistad", "preco": 39.90},
+    "CP003A": {"nome": "CP003 - Camiseta Padre Amistad - G", "tamanho": "G", "produto": "Camiseta Padre Amistad", "preco": 39.90},
+    "CP004A": {"nome": "CP004 - Camiseta Padre Amistad - GG", "tamanho": "GG", "produto": "Camiseta Padre Amistad", "preco": 39.90},
+    "BR001": {"nome": "BR001 - Boné rosa", "tamanho": "", "produto": "Boné rosa", "preco": 16.50},
+    "BV001": {"nome": "BV001 - Boné Verde", "tamanho": "", "produto": "Boné Verde", "preco": 16.50},
+    "BO001": {"nome": "BO001 - Botinas - 38", "tamanho": "38", "produto": "Botinas", "preco": 149.90},
+    "BO002": {"nome": "BO002 - Botinas - 39", "tamanho": "39", "produto": "Botinas", "preco": 149.90},
+    "BO003": {"nome": "BO003 - Botinas - 40", "tamanho": "40", "produto": "Botinas", "preco": 149.90},
+    "BO004": {"nome": "BO004 - Botinas - 41", "tamanho": "41", "produto": "Botinas", "preco": 149.90},
+    "BO005": {"nome": "BO005 - Botinas - 42", "tamanho": "42", "produto": "Botinas", "preco": 149.90},
+    "BO006": {"nome": "BO006 - Botinas - 43", "tamanho": "43", "produto": "Botinas", "preco": 149.90},
+    "KT001": {"nome": "KT001 - Kit Terere", "tamanho": "", "produto": "Kit Terere", "preco": 220.00},
+    "MT001": {"nome": "MT001 - Mateira", "tamanho": "", "produto": "Mateira", "preco": 166.70},
+    "GC001": {"nome": "GC001 - Guarda-chuva invertido", "tamanho": "", "produto": "Guarda-chuva invertido", "preco": 79.90},
+    "CE001": {"nome": "CE001 - Cuia de embuia", "tamanho": "", "produto": "Cuia de embuia", "preco": 49.90},
+    "CP001B": {"nome": "CP001 - Cuia de Porongo", "tamanho": "", "produto": "Cuia de Porongo", "preco": 39.90},
+    "SQ001": {"nome": "SQ001 - Squezze 600ml aluminio", "tamanho": "", "produto": "Squezze 600ml aluminio", "preco": 29.70},
+    "CL001": {"nome": "CL001 - Cooler 12 latas", "tamanho": "", "produto": "Cooler 12 latas", "preco": 37.70},
+    "CT001": {"nome": "CT001 - 10 caixa térmica de 12 litros", "tamanho": "", "produto": "10 caixa térmica de 12 litros", "preco": 89.90},
+    "CT002": {"nome": "CT002 - 10 caixa térmica de 34 litros", "tamanho": "", "produto": "10 caixa térmica de 34 litros", "preco": 129.90},
+    "MA001": {"nome": "MA001 - Mala para viagem", "tamanho": "", "produto": "Mala para viagem", "preco": 299.90},
+    "MO001": {"nome": "MO001 - Mochila de Couro Sintético", "tamanho": "", "produto": "Mochila de Couro Sintético", "preco": 239.90},
+    "GT001": {"nome": "GT001 - Garrafa Térmica 1 litro", "tamanho": "", "produto": "Garrafa Térmica 1 litro", "preco": 109.90},
+    "GT002": {"nome": "GT002 - Garrafa Térmica 1,5 litro", "tamanho": "", "produto": "Garrafa Térmica 1,5 litro", "preco": 129.90},
 }
+
 
 # ---------------------- STORE COMPARTILHADO (persistência) ----------------- #
 # Em produção, você pode usar Redis ou banco de dados
@@ -85,9 +151,16 @@ def save_cart(cid, carrinho):
 def index():
     # Pega o cid da URL ou cria um novo
     cid = request.args.get('cid', '').strip()
+    #if not cid:
+    #    cid = uuid.uuid4().hex[:8]
+    #    return redirect(url_for('index', cid=cid))
     if not cid:
         cid = uuid.uuid4().hex[:8]
-        return redirect(url_for('index', cid=cid))
+        # Mantém todos os parâmetros originais na URL ao redirecionar, adicionando o novo cid
+        args_dict = request.args.to_dict()
+        args_dict['cid'] = cid
+        return redirect(url_for('index', **args_dict))
+
     
     # Carrega carrinho
     carrinho = get_cart(cid)
