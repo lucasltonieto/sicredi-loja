@@ -1,11 +1,17 @@
 import re
 import uuid
 from urllib.parse import unquote, quote
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, make_response
 import os
 
+
+
+
+
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here')
+app.secret_key = "segredo"
+
+#app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here')
 
 # ---------------------- CATÁLOGO --------------------------- #
 CATALOGO = {
@@ -147,6 +153,7 @@ def save_cart(cid, carrinho):
     if cid:
         CART_STORE[cid] = carrinho.copy()
 
+"""   
 @app.route('/')
 def index():
     # Pega o cid da URL ou cria um novo
@@ -236,6 +243,104 @@ def index():
                          capital=capital, 
                          cid=cid,
                          quote=quote)
+
+"""
+
+
+@app.route('/')
+@app.route('/index')
+
+def index():
+    # 1. Tenta pegar da URL
+    cid = request.args.get('cid')
+    # 2. Se não tiver, tenta pegar do cookie
+    if not cid:
+        cid = request.cookies.get('cid')
+    # 3. Se não tiver, gera nova
+    if not cid:
+        cid = uuid.uuid4().hex[:8]
+
+    # Carrega carrinho
+    carrinho = get_cart(cid)
+    changed = False
+
+    # Processa parâmetros da URL
+    args = request.args
+
+    # limpar carrinho: ?clear=1
+    if args.get("clear"):
+        carrinho = {}
+        changed = True
+
+    # remover item por nome ou código: ?rm=Camiseta ou ?rm=50
+    rm_val, _ = _get_param(args, {"rm", "remove", "del"})
+    if rm_val:
+        key = unquote(str(rm_val)).strip()
+        # tenta por nome
+        if key in carrinho:
+            del carrinho[key]
+            changed = True
+        else:
+            # tenta por código -> mapeia para nome
+            item = CATALOGO.get(key)
+            if item and item["nome"] in carrinho:
+                del carrinho[item["nome"]]
+                changed = True
+
+    # múltiplos códigos: ?codes=89|2;50|1
+    codes_val, _ = _get_param(args, {"codes", "itens", "items", "codigos"})
+    if codes_val:
+        for chunk in str(codes_val).split(";"):
+            if not chunk.strip():
+                continue
+            parts = [p.strip() for p in chunk.split("|")]
+            if len(parts) == 1:
+                _add_code(carrinho, parts[0], 1)
+            else:
+                _add_code(carrinho, parts[0], parts[1])
+            changed = True
+
+    # único código: aceita Codigo, codigo, code, cod, sku, id
+    code_val, _ = _get_param(args, {"codigo", "code", "cod", "sku", "id"})
+    if code_val is not None:
+        qty_val, _ = _get_param(args, {"quantidade", "qty", "q"})
+        _add_code(carrinho, code_val, qty_val if qty_val is not None else 1)
+        changed = True
+
+    # compat: formato antigo ?produto=Nome&preco=9,90&quantidade=2
+    if "produto" in args and "preco" in args:
+        nome = args.get("produto")
+        preco = args.get("preco")
+        qtd = args.get("quantidade", 1)
+        _add_item(carrinho, unquote(nome), preco, qtd)
+        changed = True
+
+    # Salva carrinho se mudou e "limpa" a URL (mantendo só cid)
+    if changed:
+        save_cart(cid, carrinho)
+        return redirect(url_for('index', cid=cid))
+
+    # Calcula totais
+    total = 0.0
+    for produto, info in carrinho.items():
+        subtotal = info["preco"] * info["qtd"]
+        total += subtotal
+
+    capital = total / 2
+    my_quote = ""  # Ou defina um valor se usa no template
+
+    resp = make_response(render_template(
+        'index.html',
+        carrinho=carrinho,
+        total=total,
+        capital=capital,
+        cid=cid,
+        quote=""
+    ))
+    # 4. Salva a cid no cookie por 30 dias
+    resp.set_cookie('cid', cid, max_age=60*60*24*30)
+    return resp
+
 
 if __name__ == '__main__':
     app.run(debug=True)
