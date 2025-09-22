@@ -21,6 +21,8 @@
             <div class="heading-line"></div>
         </div>
 
+
+
         {% if carrinho %}
             {% for produto, info in carrinho.items() %}
                 {% set subtotal = info.preco * info.qtd %}
@@ -28,9 +30,10 @@
                     <div class="col-nome">{{ produto }} × {{ info.qtd }}</div>
                     <div class="col-preco">R$ {{ "%.2f"|format(subtotal) }}</div>
                     <div class="col-acoes">
-                        <a class="btn-x" href="?cid={{ cid }}&rm={{ quote(produto) }}" title="Remover {{ produto }}">✕</a>
+                        <a class="btn-x" href="?cid={{ cid }}&rm={{ produto|urlencode }}" title="Remover {{ produto }}">✕</a>
                     </div>
                 </div>
+
             {% endfor %}
 
             <div class="totais">
